@@ -22,11 +22,7 @@
 # Follow-up:
 # Can you solve it without using extra space?
 
-Definition for singly-linked list.
-class ListNode(object):
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+from ListNode import *
 
 class Solution(object):
     def detectCycle(self, head):
@@ -56,3 +52,13 @@ class Solution(object):
                 return slow
         
         return None
+
+node = ListNode(1)
+node.next = ListNode(2)
+node3 = node.next.next = ListNode(3)
+node.next.next.next = ListNode(4)
+node.next.next.next.next = ListNode(5)
+node.next.next.next.next.next = node3
+
+sol = Solution()
+sol.detectCycle2(node)

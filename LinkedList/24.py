@@ -38,15 +38,17 @@ class Solution(object):
     def swapPairs2(self, head):
         dummy = ListNode(0)
         dummy.next = head
-        
         current = dummy
-        while current != None and current.next != None and current.next.next != None:
+        
+        while current and current.next and current.next.next:
             first = current.next
             second = current.next.next
-            first.next = second.next
+            third = second.next
             current.next = second
-            current.next.next = first
-            current = current.next.next
+            second.next = first
+            first.next = third
+            current = first
+        
         return dummy.next
 
 node = ListNode(1)
