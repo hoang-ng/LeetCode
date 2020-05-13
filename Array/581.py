@@ -25,3 +25,25 @@ class Solution:
                 end = max(end, i)
                 
         return end - start + 1 if end > start else 0
+
+    def findUnsortedSubarray2(self, nums):
+        _min = float("inf")
+        _max = -float("inf")
+        for i in range(1, len(nums)):
+            if nums[i] < nums[i - 1]:
+                _min = min(_min, nums[i])
+        for i in range(len(nums) - 2, -1, -1):
+            if nums[i] > nums[i + 1]:
+                _max = max(_max, nums[i])
+        l = 0
+        while l < len(nums):
+            if _min < nums[l]:
+                break
+            l += 1
+        r = len(nums) - 1
+        while r >= 0:
+            if _max > nums[r]:
+                break
+            r -= 1
+        
+        return r - l + 1 if r >= l else 0

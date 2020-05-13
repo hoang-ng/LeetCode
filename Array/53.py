@@ -12,6 +12,11 @@ class Solution:
         res = nums[0]
         currSum = nums[0]
         for i in range(1, len(nums)):
-            currSum = max(nums[i], currSum + nums[i])
+            curr = nums[i]
+            tempSum = currSum + nums[i]
+            currSum = max(curr, tempSum)
             res = max(res, currSum)
         return res
+
+sol  = Solution()
+sol.maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
