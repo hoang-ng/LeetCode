@@ -44,33 +44,31 @@ class Solution2:
         rmost = self.rightsearch(A,target)
         return[lmost,rmost]
 
-    def leftsearch(self,A,tar):
+    def leftsearch(self, A, target):
         l = 0
         r = len(A) - 1
         rs = -1
         while l <= r:
-            mid = (l + r)/2
-            if A[mid] > tar:
+            mid = (l + r) / 2
+            if target <= A[mid]:
                 r = mid - 1
-            elif A[mid] < tar:
-                l = mid + 1
             else:
+                l = mid + 1
+            if target == A[mid]:
                 rs = mid
-                r = mid - 1
         return rs
 
 
-    def rightsearch(self,A,tar):
+    def rightsearch(self, A, target):
         l = 0
         r = len(A)-1
         rs = -1
         while l <= r:
             mid = (l + r) / 2
-            if A[mid] > tar:
-                r = mid -1
-            elif A[mid] <tar:
-                l = mid + 1
+            if target >= A[mid]:
+                r = mid - 1
             else:
-                rs = mid
                 l = mid + 1
+            if target == A[mid]:
+                rs = mid
         return rs
