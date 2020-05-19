@@ -33,12 +33,13 @@ class Solution:
         
     def dfs(self, candidates, index, target, subList, rs):
         if target == 0:
+            print(subList)
             rs.append(subList)
             return
-        if target < 0:
-            return
         for i in range(index, len(candidates)):
-            self.dfs(candidates, i, target - candidates[i], subList + [candidates[i]], rs)
+            if candidates[i] > target:
+                break
+            self.dfs(candidates, i + 1, target - candidates[i], subList + [candidates[i]], rs)
 
 sol = Solution()
-sol.combinationSum([2, 3, 6, 7], 7)
+sol.combinationSum([2, 3, 4, 6, 7], 7)

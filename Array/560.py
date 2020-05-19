@@ -13,10 +13,12 @@
 class Solution:
     def subarraySum(self, nums, k):
         dic = {0: 1}
-        count = 0
-        curr = 0
+        
+        currSum = 0
+        rs = 0
+        
         for n in nums:
-            curr += n
-            count += dic.get(curr - k, 0)
-            dic[curr] = dic.get(curr, 0) + 1
-        return count
+            currSum += n
+            rs += dic.get(currSum - k, 0)
+            dic[currSum] = dic.get(currSum, 0) + 1
+        return rs
