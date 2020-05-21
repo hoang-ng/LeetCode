@@ -23,3 +23,9 @@ class Solution(object):
                 currSum -= nums[left]
                 left += 1
         return 0 if ans == float("inf") else ans
+
+sol = Solution()
+sol.minSubArrayLen(11, [1,2,3,4,5])
+
+word = 'Hello'
+word[3]
