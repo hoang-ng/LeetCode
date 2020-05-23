@@ -36,7 +36,7 @@ class Solution(object):
         dic = {0: 1}
         return dfs(root, 0, sum)
 
-root = generateBinaryTree([5,4,8,11,-1,13,4,7,2,-1,-1,5,1])
+root = generateBinaryTree([10,5,-3,3,2,-1,11,3,-2,-1,1])
 sol = Solution()
-sol.pathSum(root, 22)
+sol.pathSum(root, 8)
         

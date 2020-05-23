@@ -11,13 +11,17 @@ from BinaryTree import *
 
 class Solution(object):
     def minDepth(self, root):
-        if not root: 
+        if not root:
             return 0
-        l = self.minDepth(root.left)
-        r = self.minDepth(root.right)
-        if l == 0 or r == 0:
-            return l + r + 1
-        return min(l, r) + 1
+        if not root.left:
+            return self.minDepth(root.right) + 1
+        if not root.right:
+            return self.minDepth(root.left) + 1
+        
+        left = self.minDepth(root.left)
+        right = self.minDepth(root.right)
+        
+        return min(left, right) + 1
 
     def minDepth2(self, root):
         if not root:
@@ -37,6 +41,6 @@ class Solution(object):
                     return i
         return -1
 
-root = generateBinaryTree([1, 2, -1, 3, 9, -1, -1, -1, -1, 8])
+root = generateBinaryTree([3,9,20,-1,-1,15,7])
 sol = Solution()
-print(sol.minDepth(root))
+print(sol.minDepth2(root))
