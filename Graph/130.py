@@ -57,4 +57,7 @@ class Solution(object):
         self.boundaryDFS(board, i, j - 1)
 
 sol = Solution()
-sol.solve([["X","O","X","O","X","O"],["O","X","O","X","O","X"],["X","O","X","O","X","O"],["O","X","O","X","O","X"]])
+sol.solve([["X","O","X","O","X","O"]
+        ,  ["O","O","O","X","O","X"],
+           ["X","O","X","O","O","X"],
+           ["O","X","O","X","X","X"]])

@@ -19,72 +19,72 @@
 # The length of accounts[i] will be in the range [1, 10].
 # The length of accounts[i][j] will be in the range [1, 30].
 
+import collections
+
 class Solution(object):
     def accountsMerge(self, accounts):
-        from collections import defaultdict
-        visited_accounts = [False] * len(accounts)
-        emails_accounts_map = defaultdict(list)
-        res = []
-        # Build up the graph.
-        for i, account in enumerate(accounts):
-            for j in range(1, len(account)):
-                email = account[j]
-                emails_accounts_map[email].append(i)
-        # DFS code for traversing accounts.
+        visited_accs = set()
+        graph = collections.defaultdict(list)
+        rs = []
+        
+        for i, acc in enumerate(accounts):
+            for email in acc[1:]:
+                graph[email].append(i)
+                
         def dfs(i, emails):
-            if visited_accounts[i]:
-                return
-            visited_accounts[i] = True
-            for j in range(1, len(accounts[i])):
-                email = accounts[i][j]
+            visited_accs.add(i)
+            
+            for email in accounts[i][1:]:
                 emails.add(email)
-                for neighbor in emails_accounts_map[email]:
-                    dfs(neighbor, emails)
-        # Perform DFS for accounts and add to results.
-        for i, account in enumerate(accounts):
-            if visited_accounts[i]:
-                continue
-            name, emails = account[0], set()
-            dfs(i, emails)
-            res.append([name] + sorted(emails))
-        return res
-
-from collections import defaultdict
+                for nei in graph[email]:
+                    if nei not in visited_accs:
+                        dfs(nei, emails)
+                    
+        for i, acc in enumerate(accounts):
+            if i not in visited_accs:
+                name = acc[0]
+                emails = set()
+                dfs(i, emails)
+                rs.append([name] + sorted(emails))
+        
+        return rs
 
 class Solution2(object):
     def accountsMerge(self, accounts):
         parents = []
         
         def find(x):
-            if parents[x] < 0:
+            if parents[x] == -1:
                 return x
             return find(parents[x])
         
         def union(x, y):
-            xRoot, yRoot = find(x), find(y)
-            if xRoot != yRoot:
-                if parents[xRoot] < parents[yRoot]:
-                    parents[xRoot] += parents[yRoot]
-                    parents[yRoot] = xRoot
-                else:
-                    parents[yRoot] += parents[xRoot]
-                    parents[xRoot] = yRoot
-                
-        count, email_to_id, id_to_name = 0, {}, {}
-        for account in accounts:
-            for email in account[1:]:
+            xR = find(x)
+            yR = find(y)
+            if xR != yR:
+                parents[xR] = yR
+            
+        email_to_id = {}
+        id_to_name = {}
+        for i, acc in enumerate(accounts):
+            id_to_name[i] = acc[0]
+            for email in acc[1:]:
                 if email not in email_to_id:
-                    email_to_id[email] = count
-                    id_to_name[count] = account[0]
+                    email_to_id[email] = i
                     parents.append(-1)
-                    count += 1
-                union(email_to_id[account[1]], email_to_id[email])        
+                union(i, email_to_id[email])
                 
-        res = {}
+        id_to_emails = collections.defaultdict(list)
         for email, id in email_to_id.items():
             master = find(id)
-            res[master] = res.get(master, []) + [email]
-        return [[id_to_name[id]] + sorted(emails) for id, emails in res.items()]
+            id_to_emails[master].append(email)
+            
+        res = []
+        for id, emails in id_to_emails.items():
+            res.append([id_to_name[id]] + sorted(emails))
+            
+        return res
         
+                
 sol = Solution2()
 sol.accountsMerge([["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]])

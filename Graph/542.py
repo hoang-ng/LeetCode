@@ -50,3 +50,7 @@ class Solution(object):
                         visited.add((newX, newY))
                         q.append((newX, newY))
         return matrix
+
+
+sol = Solution()
+sol.updateMatrix([[0,0,0], [0,1,0], [1,1,1]])

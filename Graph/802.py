@@ -17,34 +17,28 @@
 
 class Solution(object):
     def eventualSafeNodes(self, graph):
-        # 0: non-visited
-        # 1: safe
-        # 2: unsafe
-        n = len(graph)
-        color = [0] * n
-        res = []
-    
-        for i in range(n):
-            if self.dfs(graph, i, color):
-                res.append(i)
-
-        return res
+        WHITE, GRAY, BLACK = 0, 1, 2
+        color = [WHITE] * len(graph)
         
-    def dfs(self, graph, start, color):
-        if color[start] == 2:
-            return False
-        elif color[start] == 1:
+        def dfs(node):
+            if color[node] != WHITE:
+                return color[node] == BLACK
+            color[node] = GRAY
+            for nei in graph[node]:
+                if color[nei] == BLACK:
+                    continue
+                if color[nei] == GRAY or not dfs(nei):
+                    return False
+                
+            color[node] = BLACK
             return True
         
-        color[start] = 2
-    
-        for end in graph[start]:
-            if not self.dfs(graph, end, color):
-                return False
-
-        color[start] = 1
-    
-        return True
+        res = []
+        for i in range(len(graph)):
+            if dfs(i):
+                res.append(i)
+                
+        return res
 
 sol = Solution()
 sol.eventualSafeNodes([[1,2],[2,3],[5],[0],[5],[],[]])

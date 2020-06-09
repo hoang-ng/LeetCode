@@ -24,6 +24,7 @@
 # The size of the input 2D-array will be between 3 and 1000.
 # Every integer represented in the 2D-array will be between 1 and N, where N is the size of the input array.
 
+import collections
 
 class Solution(object):
     def findRedundantConnection(self, edges):
@@ -47,5 +48,27 @@ class Solution(object):
                 return [x, y]
         return []
 
-sol = Solution()
-sol.findRedundantConnection([[1,2],[1,3],[2,3]])
+class Solution2(object):
+    def findRedundantConnection(self, edges):
+        graph = collections.defaultdict(set)
+        
+        def dfs(s, d):
+            if s not in seen:
+                seen.add(s)
+                if s == d:
+                    return True
+                for n in graph[s]:
+                    if dfs(n, d):
+                        return True
+            return False
+        
+        for u,v in edges:
+            seen = set()
+            if dfs(u,v):
+                return [u,v]
+                
+            graph[u].add(v)
+            graph[v].add(u)
+
+sol = Solution2()
+sol.findRedundantConnection([[1,2], [2,3], [3,4], [1,4], [1,5]])

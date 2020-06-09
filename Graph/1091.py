@@ -22,15 +22,25 @@
 
 class Solution(object):
     def shortestPathBinaryMatrix(self, grid):
+        if not grid or not grid[0] or grid[0][0] == 1 or grid[-1][-1] == 1: return -1
+        
         n = len(grid)
-        if grid[0][0] or grid[n - 1][n - 1]:
-            return -1
-        queue = [(0,0,1)]
-        for i, j, d in queue:
-            if i == n - 1 and j == n - 1:
+        
+        q = [(0, 0, 1)]
+        
+        dirs = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (0, 1), (1, -1), (1, 0), (1, 1)]
+        visited = set()
+        visited.add((0, 0))
+        
+        while q:
+            i, j, d = q.pop(0)
+            if i == n - 1 and j == n -1:
                 return d
-            for x, y in ((i - 1,j - 1), (i - 1, j), (i - 1, j + 1), (i, j + 1), (i + 1, j - 1), (i + 1, j), (i + 1, j + 1)):
-                if 0<=x<n and 0<=y<n and not grid[x][y]:
-                    grid[x][y] = 1
-                    queue.append((x, y, d + 1))
+            
+            for dirr in dirs:
+                x, y = i + dirr[0], j + dirr[1]
+                if x >= 0 and x < n and y >= 0 and y < n and grid[x][y] == 0 and (x, y) not in visited:
+                    q.append((x, y, d + 1))
+                    visited.add((x, y))
+                    
         return -1

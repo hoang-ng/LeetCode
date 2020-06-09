@@ -21,6 +21,8 @@
 # Note:
 # You can assume that no duplicate edges will appear in edges. Since all edges are undirected, [0, 1] is the same as [1, 0] and thus will not appear together in edges.
 
+import collections
+
 def countComponents(self, n, edges):
         parent = [-1] * n
         def find(x):
