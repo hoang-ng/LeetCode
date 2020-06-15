@@ -50,6 +50,8 @@
 # informTime[i] == 0 if employee i has no subordinates.
 # It is guaranteed that all the employees can be informed.
 
+import collections
+
 class Solution(object):
     def numOfMinutes(self, n, headID, manager, informTime):
         subordinates = collections.defaultdict(list)
@@ -63,3 +65,22 @@ class Solution(object):
                 dfs(subordinate, time + informTime[manager])
         dfs(headID, 0)        
         return self.res
+
+class Solution2(object):
+    def numOfMinutes(self, n, headID, manager, informTime):
+        graph = collections.defaultdict(list)
+        
+        for i, v in enumerate(manager):
+            graph[v].append(i)
+                
+        queue = collections.deque([(headID, 0)])
+        rs = 0
+        
+        while queue:
+            u, time = queue.popleft()
+            rs = max(rs, time)
+            
+            for v in graph[u]:
+                queue.append((v, time + informTime[u]))
+                    
+        return rs
